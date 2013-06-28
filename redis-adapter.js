@@ -20,14 +20,14 @@ module.exports = RedisAdapter;
  * @api public
  */
 
-function RedisAdapter(nsp){
+function RedisAdapter(nsp, opts){
 	this.parent = Adapter;
 	parent.call(this, nsp);
 	this.subscriptions = {};
 	this.pack = msgpack.pack;
 	this.unpack = msgpack.unpack;
-	this.pub = redis.createClient();
-	this.sub = redis.createClient();
+	this.pub = opts.pub ? opts.pub : redis.createClient();
+	this.sub = opts.sub ? opts.sub : redis.createClient();
 	this.nodeId = this.generateNodeId();
 	this.listenForMessages();
 }
